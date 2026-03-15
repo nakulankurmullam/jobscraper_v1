@@ -1,6 +1,6 @@
 console.log("Hello CodeSandbox");
 const linkedIn = require("linkedin-jobs-api");
-// const jsonXLSX = require("json-as-xlsx");
+const jsonXLSX = require("json2xlsx");
 const fs = require("fs");
 const queryOptions = {
   keyword: "software engineer",
@@ -19,9 +19,12 @@ const queryOptions = {
 linkedIn.query(queryOptions).then((response) => {
   console.table(response);
   const jsonData = JSON.stringify(response, null, 2);
-
+  
   // Write to a file named 'Jobs.json'
   fs.writeFileSync("Jobs.json", jsonData);
+  
+  // Write to an XLSX file named 'Jobs.xlsx'
+  jsonXLSX.write('Jobs.xlsx', 'Jobs', response);
 
-  console.log("JSON file saved to project folder!");
+  console.log("Files saved to project folder!");
 });
